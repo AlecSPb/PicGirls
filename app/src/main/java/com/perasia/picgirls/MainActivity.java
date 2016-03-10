@@ -15,6 +15,9 @@ import android.widget.ListView;
 
 import com.perasia.picgirls.adapter.SimpleFragmentPagerAdapter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private ListView mDrawerListView;
 
+    private Map<Integer, String> mTabMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 //        toolbar.setNavigationIcon(R.drawable.drawer_shadow);
+
+        initTabState();
 
         init();
     }
@@ -74,6 +81,21 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
+    }
+
+    private void initTabState() {
+        mTabMap = new HashMap<>();
+        mTabMap.put(1, Config.DB_RANK);
+        mTabMap.put(2, Config.DB_BREAST);
+        mTabMap.put(3, Config.DB_BUTT);
+        mTabMap.put(4, Config.DB_SILK);
+        mTabMap.put(5, Config.DB_LEG);
+        mTabMap.put(6, Config.DB_FACE);
+        mTabMap.put(7, Config.DB_SOME);
+    }
+
+    public Map<Integer, String> getTabState() {
+        return mTabMap;
     }
 
     @Override

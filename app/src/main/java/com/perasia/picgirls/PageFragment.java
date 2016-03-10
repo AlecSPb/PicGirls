@@ -17,6 +17,7 @@ import com.perasia.picgirls.net.GetMMImgTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PageFragment extends Fragment {
     private static final String TAG = PageFragment.class.getSimpleName();
@@ -65,12 +66,17 @@ public class PageFragment extends Fragment {
         mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-
         GetMMImgTask task = new GetMMImgTask();
-        task.execute(Config.DB_BREAST + 1);
+
+        MainActivity parent = (MainActivity) getActivity();
+        Map<Integer, String> tabState = parent.getTabState();
+        String baseUrl = tabState.get(mFragmentPage);
+
+        task.execute(baseUrl + 1);
         task.setOnExecuteCallback(new GetMMImgTask.OnExecuteCallback() {
             @Override
             public Void onPostResult(List<String> lists) {
+                // TODO: 16/3/10  delete
                 if (lists != null) {
                     for (int i = 0; i < lists.size(); ++i) {
                         Log.e(TAG, "url=" + lists.get(i));
@@ -102,26 +108,6 @@ public class PageFragment extends Fragment {
                 Toast.makeText(getActivity(), "pos=" + pos, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-
-    private List<String> getDummyDatas() {
-        List<String> datas = new ArrayList<>();
-        datas.add("http://source.jisuoping.com/image/20160307174845968.jpg");
-        datas.add("http://source.jisuoping.com/image/20160307180344841.jpg");
-        datas.add("http://source.jisuoping.com/image/20160223152926229.jpg");
-        datas.add("http://source.jisuoping.com/image/20160307165250511.jpg");
-        datas.add("http://source.jisuoping.com/image/20160302185707481.jpg");
-        datas.add("http://source.jisuoping.com/image/20160302190607047.jpg");
-        datas.add("http://source.jisuoping.com/image/20160302182836335.jpg");
-        datas.add("http://source.jisuoping.com/image/20160229180430952.jpg");
-        datas.add("http://source.jisuoping.com/image/20160229174223361.jpg");
-        datas.add("http://source.jisuoping.com/image/20160229161027795.jpg");
-        datas.add("http://source.jisuoping.com/image/20160223164345316.jpg");
-        datas.add("http://source.jisuoping.com/image/20160224175637988.jpg");
-        datas.add("http://source.jisuoping.com/image/20160224175511379.jpg");
-
-        return datas;
     }
 
 

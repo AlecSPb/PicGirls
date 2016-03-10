@@ -26,10 +26,7 @@ public class MyApplication extends Application {
 
         mContext = getApplicationContext();
 
-        init();
     }
 
-    private void init() {
 
-    }
 }

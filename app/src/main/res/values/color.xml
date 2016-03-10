@@ -6,4 +6,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="color_tab_normal">#333333</color>
+    <color name="color_tab_select">#fe2557</color>
+
 </resources>
