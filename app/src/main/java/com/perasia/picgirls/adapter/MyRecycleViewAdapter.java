@@ -11,14 +11,13 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.perasia.picgirls.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdapter.ViewHolder> {
     private static final String TAG = MyRecycleViewAdapter.class.getSimpleName();
 
     public interface OnItemActionListener {
-        void onItemClickListener(View v, int pos);
+        void onItemClickListener(View v, int pos, String url);
     }
 
     private Context context;
@@ -54,7 +53,7 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClickListener(v, holder.getPosition());
+                    listener.onItemClickListener(v, holder.getPosition(), datas.get(holder.getPosition()));
                 }
             });
         }
@@ -93,7 +92,7 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
         datas.add(data);
     }
 
-    public void appendToList(ArrayList<String> datas) {
+    public void appendToList(List<String> datas) {
         if (datas == null) {
             return;
         }

@@ -9,4 +9,8 @@
     <color name="color_tab_normal">#333333</color>
     <color name="color_tab_select">#fe2557</color>
 
+    <color name="color_refresh_one">#ff0099cc</color>
+    <color name="color_refresh_two">#FF4081</color>
+    <color name="color_refresh_three">#8822ff</color>
+
 </resources>
