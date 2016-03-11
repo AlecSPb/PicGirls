@@ -1,6 +1,7 @@
 package com.perasia.picgirls.utils;
 
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import java.io.BufferedReader;
@@ -97,7 +98,7 @@ public class CatchImgUtil {
         }
     }
 
-    public static void downloadPic(String downloadUrl, String fileName, String savePath) {
+    public static void downloadPic(Context context, String downloadUrl, String fileName) {
 
         try {
             URL url = new URL(downloadUrl);
@@ -106,12 +107,8 @@ public class CatchImgUtil {
             InputStream is = conn.getInputStream();
             byte[] bytes = new byte[1024];
             int len;
-            File sf = new File(savePath);
-            if (!sf.exists()) {
-                sf.mkdirs();
-            }
 
-            OutputStream os = new FileOutputStream(sf.getPath() + File.separator + fileName);
+            OutputStream os = new FileOutputStream(CommonUtils.getPicFileBasePath(context) + File.separator + fileName);
 
             while ((len = is.read(bytes)) != -1) {
                 os.write(bytes, 0, len);

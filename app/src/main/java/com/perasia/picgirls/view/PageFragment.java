@@ -118,7 +118,7 @@ public class PageFragment extends Fragment {
             }
         });
 
-        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL);
+        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
@@ -172,6 +172,9 @@ public class PageFragment extends Fragment {
             @Override
             public void onItemClickListener(View v, int pos, String url) {
                 Toast.makeText(getActivity(), "pos=" + pos + "--" + url, Toast.LENGTH_SHORT).show();
+//                CatchImgUtil.downloadPic(getActivity(), url, System.currentTimeMillis() + ".jpg");
+
+                mMmImgManager.downloadMMPic(getActivity(), url, System.currentTimeMillis() + ".jpg");
             }
         });
     }

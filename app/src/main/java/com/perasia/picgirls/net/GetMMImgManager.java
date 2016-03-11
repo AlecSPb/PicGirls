@@ -1,7 +1,9 @@
 package com.perasia.picgirls.net;
 
 
+import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.perasia.picgirls.data.ImageData;
 import com.perasia.picgirls.utils.CatchImgUtil;
@@ -48,6 +50,16 @@ public class GetMMImgManager {
                         listener.onSuccess(datas);
                     }
                 });
+            }
+        });
+    }
+
+    public void downloadMMPic(final Context context, final String downloadUrl, final String fileName) {
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                CatchImgUtil.downloadPic(context, downloadUrl, fileName);
+                Log.e(TAG, "download");
             }
         });
     }
