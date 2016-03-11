@@ -1,5 +1,6 @@
-package com.perasia.picgirls;
+package com.perasia.picgirls.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -8,18 +9,24 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.perasia.picgirls.Config;
+import com.perasia.picgirls.R;
 import com.perasia.picgirls.adapter.SimpleFragmentPagerAdapter;
+import com.perasia.picgirls.utils.CommonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    private Context mContext;
 
     private SimpleFragmentPagerAdapter mPagerAdapter;
 
@@ -37,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 //        toolbar.setNavigationIcon(R.drawable.drawer_shadow);
@@ -81,17 +89,19 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
+        Log.e(TAG,"mypath="+CommonUtils.getPicFileBasePath(mContext));
+
     }
 
     private void initTabState() {
         mTabMap = new HashMap<>();
-        mTabMap.put(1, Config.DB_RANK);
-        mTabMap.put(2, Config.DB_BREAST);
-        mTabMap.put(3, Config.DB_BUTT);
-        mTabMap.put(4, Config.DB_SILK);
-        mTabMap.put(5, Config.DB_LEG);
-        mTabMap.put(6, Config.DB_FACE);
-        mTabMap.put(7, Config.DB_SOME);
+        mTabMap.put(1, Config.DB_BREAST);
+        mTabMap.put(2, Config.DB_BUTT);
+        mTabMap.put(3, Config.DB_SILK);
+        mTabMap.put(4, Config.DB_LEG);
+        mTabMap.put(5, Config.DB_FACE);
+        mTabMap.put(6, Config.DB_SOME);
+        mTabMap.put(7, Config.DB_RANK);
     }
 
     public Map<Integer, String> getTabState() {

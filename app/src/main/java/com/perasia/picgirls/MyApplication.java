@@ -3,6 +3,9 @@ package com.perasia.picgirls;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
+
+import com.perasia.picgirls.utils.CommonUtils;
 
 public class MyApplication extends Application {
 
@@ -26,7 +29,17 @@ public class MyApplication extends Application {
 
         mContext = getApplicationContext();
 
+        createPicPath();
+
     }
 
+
+    private void createPicPath() {
+        String basePath = CommonUtils.getStoragePath(mContext, false);
+        boolean isOk = CommonUtils.createFilePic(basePath);
+        if (isOk) {
+            Log.e("TAG", "create file success");
+        }
+    }
 
 }

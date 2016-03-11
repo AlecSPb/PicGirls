@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.perasia.picgirls.PageFragment;
+import com.perasia.picgirls.view.PageFragment;
 
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     private static final String TAG = SimpleFragmentPagerAdapter.class.getSimpleName();

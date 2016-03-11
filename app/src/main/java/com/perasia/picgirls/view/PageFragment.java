@@ -1,4 +1,4 @@
-package com.perasia.picgirls;
+package com.perasia.picgirls.view;
 
 
 import android.os.Bundle;
@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.perasia.picgirls.R;
 import com.perasia.picgirls.adapter.MyRecycleViewAdapter;
+import com.perasia.picgirls.data.ImageData;
 import com.perasia.picgirls.net.GetMMImgManager;
 
 import java.util.ArrayList;
@@ -91,18 +93,18 @@ public class PageFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (mLastVisibleItem == null || myRecycleViewAdapter == null) {
+                if (myRecycleViewAdapter == null) {
                     return;
                 }
-
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && isLastPage()) {
                     mRefreshLayout.setRefreshing(true);
                     mReqPage++;// next page pic
                     mMmImgManager.loadMMPic(mBaseUrl + mReqPage, new GetMMImgManager.OnGetMMListener() {
                         @Override
-                        public void onSuccess(List<String> lists) {
-                            myRecycleViewAdapter.appendToList(lists);
+                        public void onSuccess(List<ImageData> datas) {
+                            mRefreshLayout.setRefreshing(false);
+                            myRecycleViewAdapter.appendToList(datas);
                         }
                     });
                 }
@@ -116,7 +118,7 @@ public class PageFragment extends Fragment {
             }
         });
 
-        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
@@ -133,7 +135,7 @@ public class PageFragment extends Fragment {
             mReqPage = 1;
             mMmImgManager.loadMMPic(mBaseUrl + mReqPage, new GetMMImgManager.OnGetMMListener() {
                 @Override
-                public void onSuccess(List<String> lists) {
+                public void onSuccess(List<ImageData> lists) {
                     doPostInitResult(lists);
                 }
             });
@@ -156,7 +158,7 @@ public class PageFragment extends Fragment {
         return false;
     }
 
-    private void doPostInitResult(List<String> lists) {
+    private void doPostInitResult(List<ImageData> lists) {
         mRefreshLayout.setRefreshing(false);
 
         if (lists == null) {
@@ -169,7 +171,7 @@ public class PageFragment extends Fragment {
         myRecycleViewAdapter.setOnItemActionListener(new MyRecycleViewAdapter.OnItemActionListener() {
             @Override
             public void onItemClickListener(View v, int pos, String url) {
-                Toast.makeText(getActivity(), "pos=" + pos, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "pos=" + pos + "--" + url, Toast.LENGTH_SHORT).show();
             }
         });
     }

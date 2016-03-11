@@ -2,16 +2,21 @@ package com.perasia.picgirls.adapter;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.Target;
 import com.perasia.picgirls.R;
+import com.perasia.picgirls.data.ImageData;
+import com.perasia.picgirls.view.RatioImageView;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdapter.ViewHolder> {
     private static final String TAG = MyRecycleViewAdapter.class.getSimpleName();
@@ -21,7 +26,7 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
     }
 
     private Context context;
-    private List<String> datas = null;
+    private List<ImageData> datas = null;
 
     private OnItemActionListener listener;
 
@@ -29,7 +34,7 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
         listener = l;
     }
 
-    public MyRecycleViewAdapter(Context context, List<String> datas) {
+    public MyRecycleViewAdapter(Context context, List<ImageData> datas) {
         this.context = context;
         this.datas = datas;
     }
@@ -47,13 +52,13 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
             return;
         }
 
-        Glide.with(context).load(datas.get(position)).placeholder(R.mipmap.pictures_no)
+        Glide.with(context).load(datas.get(position).getUrl()).placeholder(R.mipmap.pictures_no)
                 .error(R.mipmap.pictures_no).into(holder.imageView);
         if (listener != null) {
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClickListener(v, holder.getPosition(), datas.get(holder.getPosition()));
+                    listener.onItemClickListener(v, holder.getPosition(), datas.get(holder.getPosition()).getUrl());
                 }
             });
         }
@@ -66,7 +71,7 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
     }
 
 
-    private String getItem(int position) {
+    private ImageData getItem(int position) {
         if (datas == null) {
             return null;
         }
@@ -77,11 +82,11 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
         return datas.get(position);
     }
 
-    public List<String> getList() {
+    public List<ImageData> getList() {
         return datas;
     }
 
-    public void append(String data) {
+    public void append(ImageData data) {
         if (null == data) {
             return;
         }
@@ -92,7 +97,7 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
         datas.add(data);
     }
 
-    public void appendToList(List<String> datas) {
+    public void appendToList(List<ImageData> datas) {
         if (datas == null) {
             return;
         }
@@ -121,12 +126,33 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
         }
     }
 
+    private int[] getFixedImage(String url) {
+        try {
+            Bitmap bitmap = Glide.with(context).load(url).asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+            int[] size = new int[2];
+            size[0] = bitmap.getWidth();
+            size[1] = bitmap.getHeight();
+
+            return size;
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
+        public RatioImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.recycleview_item_iv);
+            imageView = (RatioImageView) itemView.findViewById(R.id.recycleview_item_iv);
         }
     }
 }

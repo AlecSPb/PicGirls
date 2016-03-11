@@ -65,7 +65,7 @@ public class CatchImgUtil {
         String regex = "<\\s*[I|i][m|M][g|G]\\s+([^>]*)\\s*>";
         Pattern pa = Pattern.compile(regex, Pattern.DOTALL);
         Matcher ma = pa.matcher(text);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         while (ma.find()) { //if has pictures
             list.add(ma.group());
         }
@@ -125,4 +125,5 @@ public class CatchImgUtil {
         }
 
     }
+
 }
