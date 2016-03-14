@@ -26,6 +26,13 @@
         <activity
             android:name=".view.ShowPicActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="56e653d167e58e1db90019ae" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="UMENG_CHANNEL" />
     </application>
 
 </manifest>

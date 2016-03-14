@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -66,14 +65,6 @@ public class ShowPicActivity extends AppCompatActivity {
         mImageDatas = bundle.getParcelableArrayList(PageFragment.SHOW_PIC);
 
         mCurrentPos = mInitPos;
-
-        Log.e(TAG, "pos=" + mInitPos);
-        if (mImageDatas != null) {
-            for (int i = 0; i < mImageDatas.size(); ++i) {
-                Log.e(TAG, "image=" + mImageDatas.get(i).getUrl());
-            }
-        }
-
     }
 
     private void init() {

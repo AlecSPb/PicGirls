@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.perasia.picgirls.Config;
 import com.perasia.picgirls.R;
 import com.perasia.picgirls.adapter.SimpleFragmentPagerAdapter;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
 //    private ListView mDrawerListView;
 
     private Map<Integer, String> mTabMap;
-
-    private boolean isBack = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +95,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -124,9 +134,5 @@ public class MainActivity extends AppCompatActivity {
 
     public Map<Integer, String> getTabState() {
         return mTabMap;
-    }
-
-    public boolean isBack() {
-        return isBack;
     }
 }
