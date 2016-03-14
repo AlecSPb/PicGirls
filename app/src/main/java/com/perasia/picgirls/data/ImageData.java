@@ -3,6 +3,8 @@ package com.perasia.picgirls.data;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -10,7 +12,7 @@ import com.bumptech.glide.request.target.Target;
 
 import java.util.concurrent.ExecutionException;
 
-public class ImageData {
+public class ImageData implements Parcelable {
     int id;
     int type;
     private String url;
@@ -20,6 +22,41 @@ public class ImageData {
     public ImageData() {
 
     }
+
+    public ImageData(Parcel source) {
+        id = source.readInt();
+        type = source.readInt();
+        url = source.readString();
+        width = source.readInt();
+        height = source.readInt();
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(type);
+        dest.writeString(url);
+        dest.writeInt(width);
+        dest.writeInt(height);
+    }
+
+    public static final Creator<ImageData> CREATOR = new Creator<ImageData>() {
+        @Override
+        public ImageData createFromParcel(Parcel source) {
+            return new ImageData(source);
+        }
+
+        @Override
+        public ImageData[] newArray(int size) {
+            return new ImageData[size];
+        }
+    };
 
     public ImageData(String url) {
         this();

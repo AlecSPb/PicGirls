@@ -3,22 +3,15 @@ package com.perasia.picgirls.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
 
 import com.perasia.picgirls.Config;
 import com.perasia.picgirls.R;
 import com.perasia.picgirls.adapter.SimpleFragmentPagerAdapter;
-import com.perasia.picgirls.utils.CommonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,11 +26,13 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mActionBarDrawerToggle;
-    private ListView mDrawerListView;
+//    private DrawerLayout mDrawerLayout;
+//    private ActionBarDrawerToggle mActionBarDrawerToggle;
+//    private ListView mDrawerListView;
 
     private Map<Integer, String> mTabMap;
+
+    private boolean isBack = false;
 
 
     @Override
@@ -47,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        toolbar.setNavigationIcon(R.drawable.drawer_shadow);
+        toolbar.setNavigationIcon(null);
 
         initTabState();
 
@@ -58,26 +53,26 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container_viewpager);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+//        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.drawer_shadow, R.string.drawer_open, R.string.drawer_close) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                invalidateOptionsMenu();
-            }
-        };
-
-        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+//        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+//                R.drawable.drawer_shadow, R.string.drawer_open, R.string.drawer_close) {
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                invalidateOptionsMenu();
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                invalidateOptionsMenu();
+//            }
+//        };
+//
+//        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
 
 
@@ -88,9 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-
-        Log.e(TAG,"mypath="+CommonUtils.getPicFileBasePath(mContext));
-
     }
 
     private void initTabState() {
@@ -102,10 +94,6 @@ public class MainActivity extends AppCompatActivity {
         mTabMap.put(5, Config.DB_FACE);
         mTabMap.put(6, Config.DB_SOME);
         mTabMap.put(7, Config.DB_RANK);
-    }
-
-    public Map<Integer, String> getTabState() {
-        return mTabMap;
     }
 
     @Override
@@ -127,10 +115,18 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        if (mActionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+//        if (mActionBarDrawerToggle.onOptionsItemSelected(item)) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public Map<Integer, String> getTabState() {
+        return mTabMap;
+    }
+
+    public boolean isBack() {
+        return isBack;
     }
 }

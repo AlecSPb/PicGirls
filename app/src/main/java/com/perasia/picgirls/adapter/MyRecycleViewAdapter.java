@@ -15,6 +15,7 @@ import com.perasia.picgirls.R;
 import com.perasia.picgirls.data.ImageData;
 import com.perasia.picgirls.view.RatioImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -26,7 +27,7 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
     }
 
     private Context context;
-    private List<ImageData> datas = null;
+    private ArrayList<ImageData> datas = null;
 
     private OnItemActionListener listener;
 
@@ -34,7 +35,7 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
         listener = l;
     }
 
-    public MyRecycleViewAdapter(Context context, List<ImageData> datas) {
+    public MyRecycleViewAdapter(Context context, ArrayList<ImageData> datas) {
         this.context = context;
         this.datas = datas;
     }

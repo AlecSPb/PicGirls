@@ -3,11 +3,11 @@ package com.perasia.picgirls.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.perasia.picgirls.view.PageFragment;
 
-public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
+public class SimpleFragmentPagerAdapter extends FragmentStatePagerAdapter {
     private static final String TAG = SimpleFragmentPagerAdapter.class.getSimpleName();
 
     private String[] tags;

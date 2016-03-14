@@ -23,7 +23,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.ShowPicActivity" />
+        <activity
+            android:name=".view.ShowPicActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

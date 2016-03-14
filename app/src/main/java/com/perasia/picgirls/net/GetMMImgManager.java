@@ -17,7 +17,7 @@ public class GetMMImgManager {
     private static final String TAG = GetMMImgManager.class.getSimpleName();
 
     public interface OnGetMMListener {
-        void onSuccess(List<ImageData> lists);
+        void onSuccess(ArrayList<ImageData> lists);
     }
 
     public GetMMImgManager() {
@@ -36,7 +36,7 @@ public class GetMMImgManager {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        List<ImageData> datas = new ArrayList<>();
+                        ArrayList<ImageData> datas = new ArrayList<>();
 
                         if (lists != null) {
                             for (int i = 0; i < lists.size(); ++i) {

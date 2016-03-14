@@ -13,14 +13,13 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CatchImgUtil {
     private static final String TAG = CatchImgUtil.class.getSimpleName();
 
-    public static List<String> getImgs(String baseUrl) {
+    public static ArrayList<String> getImgs(String baseUrl) {
         InputStreamReader reader = null;
         BufferedReader in = null;
         try {
@@ -58,7 +57,7 @@ public class CatchImgUtil {
 
     }
 
-    private static List<String> getTextImageSrc(String text) {
+    private static ArrayList<String> getTextImageSrc(String text) {
         if (TextUtils.isEmpty(text)) {
             return null;
         }
@@ -66,12 +65,12 @@ public class CatchImgUtil {
         String regex = "<\\s*[I|i][m|M][g|G]\\s+([^>]*)\\s*>";
         Pattern pa = Pattern.compile(regex, Pattern.DOTALL);
         Matcher ma = pa.matcher(text);
-        List<String> list = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
         while (ma.find()) { //if has pictures
             list.add(ma.group());
         }
         if (list.size() != 0) {// has pictures
-            List<String> imgSrcList = null;
+            ArrayList<String> imgSrcList = null;
             String a = null;
             for (String s : list) {
                 ma = Pattern.compile("[s|S][R|r][c|C]=[\"|'](.*?)[\"|']").matcher(s);

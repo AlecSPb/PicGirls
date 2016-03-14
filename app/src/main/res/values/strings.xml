@@ -9,4 +9,6 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
 
+    <string name="pic_save">图片存储在:</string>
+
 </resources>

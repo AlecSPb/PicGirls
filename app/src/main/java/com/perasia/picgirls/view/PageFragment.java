@@ -1,6 +1,7 @@
 package com.perasia.picgirls.view;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.perasia.picgirls.R;
 import com.perasia.picgirls.adapter.MyRecycleViewAdapter;
@@ -19,13 +19,15 @@ import com.perasia.picgirls.data.ImageData;
 import com.perasia.picgirls.net.GetMMImgManager;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class PageFragment extends Fragment {
     private static final String TAG = PageFragment.class.getSimpleName();
 
     public static final String ARG_PAGE = "ARG_PAGE";
+
+    public static final String SHOW_PIC = "show_pic";
+    public static final String SHOW_PIC_POS = "show_pic_pos";
 
     private int mFragmentPage;
 
@@ -41,6 +43,8 @@ public class PageFragment extends Fragment {
     private GetMMImgManager mMmImgManager;
 
     private int[] mLastVisibleItem;
+
+    private ArrayList<ImageData> mCurrentDatas;
 
     public PageFragment() {
 
@@ -72,8 +76,10 @@ public class PageFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.frag_recycleview);
         mRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.frag_refresh_layout);
-
         initView();
+
+        reqPicData();
+
         return rootView;
     }
 
@@ -102,7 +108,9 @@ public class PageFragment extends Fragment {
                     mReqPage++;// next page pic
                     mMmImgManager.loadMMPic(mBaseUrl + mReqPage, new GetMMImgManager.OnGetMMListener() {
                         @Override
-                        public void onSuccess(List<ImageData> datas) {
+                        public void onSuccess(ArrayList<ImageData> datas) {
+                            mCurrentDatas = datas;
+
                             mRefreshLayout.setRefreshing(false);
                             myRecycleViewAdapter.appendToList(datas);
                         }
@@ -127,19 +135,14 @@ public class PageFragment extends Fragment {
         mBaseUrl = tabState.get(mFragmentPage);
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (isVisible()) {
-            mReqPage = 1;
-            mMmImgManager.loadMMPic(mBaseUrl + mReqPage, new GetMMImgManager.OnGetMMListener() {
-                @Override
-                public void onSuccess(List<ImageData> lists) {
-                    doPostInitResult(lists);
-                }
-            });
-        }
+    private void reqPicData() {
+        mReqPage = 1;
+        mMmImgManager.loadMMPic(mBaseUrl + mReqPage, new GetMMImgManager.OnGetMMListener() {
+            @Override
+            public void onSuccess(ArrayList<ImageData> lists) {
+                doPostInitResult(lists);
+            }
+        });
     }
 
     private boolean isLastPage() {
@@ -158,23 +161,27 @@ public class PageFragment extends Fragment {
         return false;
     }
 
-    private void doPostInitResult(List<ImageData> lists) {
+    private void doPostInitResult(ArrayList<ImageData> lists) {
         mRefreshLayout.setRefreshing(false);
 
         if (lists == null) {
             lists = new ArrayList<>();
         }
 
+
+        mCurrentDatas = lists;
         myRecycleViewAdapter = new MyRecycleViewAdapter(getActivity(), lists);
         mRecyclerView.setAdapter(myRecycleViewAdapter);
 
         myRecycleViewAdapter.setOnItemActionListener(new MyRecycleViewAdapter.OnItemActionListener() {
             @Override
             public void onItemClickListener(View v, int pos, String url) {
-                Toast.makeText(getActivity(), "pos=" + pos + "--" + url, Toast.LENGTH_SHORT).show();
-//                CatchImgUtil.downloadPic(getActivity(), url, System.currentTimeMillis() + ".jpg");
-
-                mMmImgManager.downloadMMPic(getActivity(), url, System.currentTimeMillis() + ".jpg");
+                Intent intent = new Intent(getActivity(), ShowPicActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(SHOW_PIC, mCurrentDatas);
+                bundle.putInt(SHOW_PIC_POS, pos % mCurrentDatas.size());
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
