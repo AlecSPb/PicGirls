@@ -3,7 +3,6 @@ package com.perasia.picgirls.net;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import com.perasia.picgirls.data.ImageData;
 import com.perasia.picgirls.utils.CatchImgUtil;
@@ -59,7 +58,6 @@ public class GetMMImgManager {
             @Override
             public void run() {
                 CatchImgUtil.downloadPic(context, downloadUrl, fileName);
-                Log.e(TAG, "download");
             }
         });
     }
