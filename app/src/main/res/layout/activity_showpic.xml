@@ -15,8 +15,8 @@
         android:id="@+id/detail_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:text="保存到本地"
+        android:background="@color/color_download_bg"
+        android:text="@string/save_local"
         android:textColor="@color/color_white"
         android:textSize="18sp" />
 

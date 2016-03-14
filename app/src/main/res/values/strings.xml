@@ -11,4 +11,8 @@
 
     <string name="pic_save">图片存储在:</string>
 
+    <string name="download">下载</string>
+    <string name="download_loading">下载中...</string>
+    <string name="save_local">保存到本地</string>
+
 </resources>

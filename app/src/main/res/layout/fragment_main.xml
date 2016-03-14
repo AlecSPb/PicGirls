@@ -1,13 +1,15 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.indicator.MainActivity$PlaceholderFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/frag_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_weight="1"
+        android:layout_height="0dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/frag_recycleview"
@@ -17,4 +19,4 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</RelativeLayout>
+</LinearLayout>

@@ -8,10 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
 
 import com.perasia.picgirls.Config;
 import com.perasia.picgirls.R;
 import com.perasia.picgirls.adapter.SimpleFragmentPagerAdapter;
+import com.perasia.picgirls.utils.AdUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+
+    private WebView mAdWebView;
 
 //    private DrawerLayout mDrawerLayout;
 //    private ActionBarDrawerToggle mActionBarDrawerToggle;
@@ -50,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         mViewPager = (ViewPager) findViewById(R.id.container_viewpager);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+
+        mAdWebView = (WebView) findViewById(R.id.ad_banner_wv);
+
+        AdUtil.setAds(mContext, mAdWebView);
 
 //        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
 //        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -109,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

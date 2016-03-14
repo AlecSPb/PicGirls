@@ -44,7 +44,7 @@ public class PageFragment extends Fragment {
 
     private int[] mLastVisibleItem;
 
-    private ArrayList<ImageData> mCurrentDatas;
+    private ArrayList<ImageData> mDetailDatas;
 
     public PageFragment() {
 
@@ -68,6 +68,7 @@ public class PageFragment extends Fragment {
 
         mReqPage = 1;
         mMmImgManager = new GetMMImgManager();
+        mDetailDatas = new ArrayList<>();
     }
 
     @Nullable
@@ -109,7 +110,7 @@ public class PageFragment extends Fragment {
                     mMmImgManager.loadMMPic(mBaseUrl + mReqPage, new GetMMImgManager.OnGetMMListener() {
                         @Override
                         public void onSuccess(ArrayList<ImageData> datas) {
-                            mCurrentDatas = datas;
+                            mDetailDatas.addAll(datas);
 
                             mRefreshLayout.setRefreshing(false);
                             myRecycleViewAdapter.appendToList(datas);
@@ -169,7 +170,7 @@ public class PageFragment extends Fragment {
         }
 
 
-        mCurrentDatas = lists;
+        mDetailDatas.addAll(lists);
         myRecycleViewAdapter = new MyRecycleViewAdapter(getActivity(), lists);
         mRecyclerView.setAdapter(myRecycleViewAdapter);
 
@@ -178,8 +179,8 @@ public class PageFragment extends Fragment {
             public void onItemClickListener(View v, int pos, String url) {
                 Intent intent = new Intent(getActivity(), ShowPicActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(SHOW_PIC, mCurrentDatas);
-                bundle.putInt(SHOW_PIC_POS, pos % mCurrentDatas.size());
+                bundle.putParcelableArrayList(SHOW_PIC, mDetailDatas);
+                bundle.putInt(SHOW_PIC_POS, pos);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
