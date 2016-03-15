@@ -6,9 +6,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.perasia.picgirls.Config;
 import com.perasia.picgirls.R;
@@ -36,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 //    private ListView mDrawerListView;
 
     private Map<Integer, String> mTabMap;
+
+    private int mCount;
+    private long mLastTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,5 +147,29 @@ public class MainActivity extends AppCompatActivity {
 
     public Map<Integer, String> getTabState() {
         return mTabMap;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            long curTime = System.currentTimeMillis();
+            if (mLastTime + 2000 > curTime) {
+                mCount += 1;
+            } else {
+                mCount = 1;
+            }
+            mLastTime = curTime;
+
+            if (mCount < 2) {
+                Toast.makeText(mContext, R.string.main_back_exit, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            if (mCount >= 2) {
+                return super.onKeyDown(keyCode, event);
+            }
+        }
+
+        return false;
     }
 }

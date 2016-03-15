@@ -169,7 +169,6 @@ public class PageFragment extends Fragment {
             lists = new ArrayList<>();
         }
 
-
         mDetailDatas.addAll(lists);
         myRecycleViewAdapter = new MyRecycleViewAdapter(getActivity(), lists);
         mRecyclerView.setAdapter(myRecycleViewAdapter);

@@ -46,6 +46,7 @@ public class ShowPicActivity extends AppCompatActivity {
         getData();
 
         init();
+
     }
 
     private void getData() {
@@ -91,7 +92,7 @@ public class ShowPicActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = System.currentTimeMillis() + ".jpg";
+                String name = getDownloadPicName(mImageDatas.get(mCurrentPos).getUrl());
 
                 String path = getResources().getString(R.string.pic_save)
                         + CommonUtils.getPicFileBasePath(mContext) + File.separator + name;
@@ -118,6 +119,13 @@ public class ShowPicActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    private String getDownloadPicName(String url) {
+        int len = url.length();
+        String name = url.substring(len / 2, len);
+        return name;
     }
 
 
@@ -148,7 +156,6 @@ public class ShowPicActivity extends AppCompatActivity {
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView(views.get(position));
         }
-
-
     }
+
 }

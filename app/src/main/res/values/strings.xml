@@ -15,4 +15,6 @@
     <string name="download_loading">下载中...</string>
     <string name="save_local">保存到本地</string>
 
+    <string name="main_back_exit">再按一次退出!</string>
+
 </resources>
