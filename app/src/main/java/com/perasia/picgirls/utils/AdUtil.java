@@ -4,6 +4,7 @@ package com.perasia.picgirls.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.webkit.DownloadListener;
@@ -121,6 +122,8 @@ public class AdUtil {
             }
             mWebSettings.setBlockNetworkImage(false);
 
+            countDown();
+
             super.onPageFinished(view, url);
         }
 
@@ -144,6 +147,20 @@ public class AdUtil {
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
         }
+    }
+
+    private void countDown() {
+        new CountDownTimer(10000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                mWebView.setVisibility(View.GONE);
+            }
+        }.start();
     }
 
 }

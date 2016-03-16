@@ -77,11 +77,7 @@ public class CommonUtils {
 
     public static boolean getSdCardState() {
         String status = Environment.getExternalStorageState();
-        if (status.equals(Environment.MEDIA_MOUNTED)) {
-            return true;
-        } else {
-            return false;
-        }
+        return status.equals(Environment.MEDIA_MOUNTED);
     }
 
     public static String getPicFileBasePath(Context context) {
