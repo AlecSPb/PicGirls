@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         mTabMap.put(5, Config.DB_FACE);
         mTabMap.put(6, Config.DB_SOME);
         mTabMap.put(7, Config.DB_RANK);
+
     }
 
     @Override

@@ -4,12 +4,15 @@ package com.perasia.picgirls.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.storage.StorageManager;
 import android.text.TextUtils;
 
 import com.perasia.picgirls.Config;
+import com.perasia.picgirls.MyApplication;
 
 import java.io.File;
 import java.lang.reflect.Array;
@@ -167,5 +170,53 @@ public class CommonUtils {
         } else {
             return (totalBytes + "Bytes");
         }
+    }
+
+    public static boolean isNetworkConnected(Context context) {
+        if (context == null) {
+            context = MyApplication.getAppContext();
+        }
+
+        boolean isOK = false;
+
+        try {
+            boolean isWifiOK;
+            boolean isMobileOK;
+
+            ConnectivityManager connManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            if (connManager == null) {
+                return false;
+            }
+
+            NetworkInfo.State state = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
+            if (state == null) {
+                return false;
+            }
+            if (NetworkInfo.State.CONNECTED == state) {
+                isWifiOK = true;
+            } else {
+                isWifiOK = false;
+            }
+
+            state = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
+            if (state == null) {
+                return false;
+            }
+            if (NetworkInfo.State.CONNECTED == state) {
+                isMobileOK = true;
+            } else {
+                isMobileOK = false;
+            }
+
+            if (isMobileOK || isWifiOK) {
+                isOK = true;
+            }
+        } catch (Exception e) {
+            isOK = false;
+        }
+
+        return isOK;
     }
 }

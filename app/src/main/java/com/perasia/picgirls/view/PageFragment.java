@@ -12,11 +12,14 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.perasia.picgirls.R;
 import com.perasia.picgirls.adapter.MyRecycleViewAdapter;
 import com.perasia.picgirls.data.ImageData;
 import com.perasia.picgirls.net.GetMMImgManager;
+import com.perasia.picgirls.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -45,6 +48,8 @@ public class PageFragment extends Fragment {
     private int[] mLastVisibleItem;
 
     private ArrayList<ImageData> mDetailDatas;
+
+    private ImageView mLoadingImgIv;
 
     public PageFragment() {
 
@@ -77,6 +82,8 @@ public class PageFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.frag_recycleview);
         mRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.frag_refresh_layout);
+        mLoadingImgIv = (ImageView) rootView.findViewById(R.id.frag_imageview);
+
         initView();
 
         reqPicData();
@@ -137,13 +144,24 @@ public class PageFragment extends Fragment {
     }
 
     private void reqPicData() {
+        mRefreshLayout.setRefreshing(true);
+        mLoadingImgIv.setImageResource(R.mipmap.ic_launcher);
+
+        if(!CommonUtils.isNetworkConnected(getActivity())){
+            mRefreshLayout.setRefreshing(false);
+            Toast.makeText(getActivity(),R.string.connect_error,Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         mReqPage = 1;
         mMmImgManager.loadMMPic(mBaseUrl + mReqPage, new GetMMImgManager.OnGetMMListener() {
             @Override
             public void onSuccess(ArrayList<ImageData> lists) {
+                mLoadingImgIv.setVisibility(View.GONE);
                 doPostInitResult(lists);
             }
         });
+
     }
 
     private boolean isLastPage() {

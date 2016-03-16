@@ -17,4 +17,6 @@
 
     <string name="main_back_exit">再按一次退出!</string>
 
+    <string name="connect_error">网络异常!</string>
+
 </resources>

@@ -30,7 +30,6 @@ public class MyApplication extends Application {
         mContext = getApplicationContext();
 
         createPicPath();
-
     }
 
 
