@@ -13,14 +13,6 @@ import com.bumptech.glide.request.target.Target;
 import java.util.concurrent.ExecutionException;
 
 public class ImageData implements Parcelable {
-    private static final String TAG = ImageData.class.getSimpleName();
-
-    public static final String ID = "_id";
-    public static final String TYPE = "type";
-    public static final String URL = "url";
-    public static final String WIDTH = "width";
-    public static final String HEIGTH = "heigth";
-
     int id;
     int type;
     private String url;

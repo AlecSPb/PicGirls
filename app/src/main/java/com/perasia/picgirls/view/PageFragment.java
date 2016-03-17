@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +21,15 @@ import com.perasia.picgirls.adapter.MyRecycleViewAdapter;
 import com.perasia.picgirls.data.ImageData;
 import com.perasia.picgirls.net.GetMMImgManager;
 import com.perasia.picgirls.utils.CommonUtils;
+import com.perasia.picgirls.utils.SharePreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public class PageFragment extends Fragment {
     private static final String TAG = PageFragment.class.getSimpleName();
+
+    public static final String INIT_DATA = "init_data";
 
     public static final String ARG_PAGE = "ARG_PAGE";
 
@@ -50,6 +54,8 @@ public class PageFragment extends Fragment {
     private ArrayList<ImageData> mDetailDatas;
 
     private ImageView mLoadingImgIv;
+
+    private boolean mIsHasInitData = false;
 
     public PageFragment() {
 
@@ -97,6 +103,12 @@ public class PageFragment extends Fragment {
             @Override
             public void onRefresh() {
                 mRefreshLayout.setRefreshing(false);
+                if (mDetailDatas.size() < 1) {
+                    reqPicData();
+                } else {
+                    myRecycleViewAdapter.notifyDataSetChanged();
+                }
+
             }
         });
 
@@ -143,13 +155,24 @@ public class PageFragment extends Fragment {
         mBaseUrl = tabState.get(mFragmentPage);
     }
 
+
     private void reqPicData() {
         mRefreshLayout.setRefreshing(true);
         mLoadingImgIv.setImageResource(R.mipmap.ic_launcher);
 
-        if(!CommonUtils.isNetworkConnected(getActivity())){
+        String saveData = SharePreferenceUtil.getStringData(getActivity(), INIT_DATA + mFragmentPage, "");
+
+        if (!TextUtils.isEmpty(saveData)) {
+            mIsHasInitData = true;
+            doLocalInitResult(saveData);
+        } else {
+            mIsHasInitData = false;
+        }
+
+
+        if (!CommonUtils.isNetworkConnected(getActivity())) {
             mRefreshLayout.setRefreshing(false);
-            Toast.makeText(getActivity(),R.string.connect_error,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.connect_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -187,8 +210,51 @@ public class PageFragment extends Fragment {
             lists = new ArrayList<>();
         }
 
-        mDetailDatas.addAll(lists);
-        myRecycleViewAdapter = new MyRecycleViewAdapter(getActivity(), lists);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < lists.size(); ++i) {
+            stringBuilder.append(lists.get(i).getUrl()).append(",");
+        }
+
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
+        SharePreferenceUtil.saveStringData(getActivity(), INIT_DATA + mFragmentPage, stringBuilder.toString());
+
+        if (!mIsHasInitData) {
+            mDetailDatas.addAll(lists);
+            myRecycleViewAdapter = new MyRecycleViewAdapter(getActivity(), lists);
+            mRecyclerView.setAdapter(myRecycleViewAdapter);
+
+            myRecycleViewAdapter.setOnItemActionListener(new MyRecycleViewAdapter.OnItemActionListener() {
+                @Override
+                public void onItemClickListener(View v, int pos, String url) {
+                    Intent intent = new Intent(getActivity(), ShowPicActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList(SHOW_PIC, mDetailDatas);
+                    bundle.putInt(SHOW_PIC_POS, pos);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+        }
+
+    }
+
+    private void doLocalInitResult(String saveData) {
+        mRefreshLayout.setRefreshing(false);
+        mLoadingImgIv.setVisibility(View.GONE);
+
+        String[] result = saveData.split(",");
+
+        ArrayList<ImageData> datas = new ArrayList<>();
+
+        for (int i = 0; i < result.length; ++i) {
+            ImageData data = new ImageData();
+            data.setUrl(result[i]);
+            datas.add(data);
+        }
+
+        mDetailDatas.addAll(datas);
+        myRecycleViewAdapter = new MyRecycleViewAdapter(getActivity(), datas);
         mRecyclerView.setAdapter(myRecycleViewAdapter);
 
         myRecycleViewAdapter.setOnItemActionListener(new MyRecycleViewAdapter.OnItemActionListener() {
@@ -202,6 +268,7 @@ public class PageFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
     }
 
 

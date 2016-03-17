@@ -13,4 +13,9 @@ public class Config {
     public static String DB_SOME = "http://www.dbmeinv.com/dbgroup/show.htm?cid=5&pager_offset=";
     public static String DB_RANK = "http://www.dbmeinv.com/dbgroup/rank.htm?pager_offset=";
 
+    public static String SOUGOU_GIRL_CAR = "http://www.meitulu.com/t/nvshen/";
+
+    //图片接口
+//    http://gank.avosapps.com/api/data/%E7%A6%8F%E5%88%A9/10/1
+
 }
