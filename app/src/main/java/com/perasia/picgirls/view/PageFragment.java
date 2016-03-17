@@ -92,7 +92,7 @@ public class PageFragment extends Fragment {
 
         initView();
 
-        reqPicData();
+        getPicData();
 
         return rootView;
     }
@@ -104,7 +104,7 @@ public class PageFragment extends Fragment {
             public void onRefresh() {
                 mRefreshLayout.setRefreshing(false);
                 if (mDetailDatas.size() < 1) {
-                    reqPicData();
+                    getPicData();
                 } else {
                     myRecycleViewAdapter.notifyDataSetChanged();
                 }
@@ -156,7 +156,7 @@ public class PageFragment extends Fragment {
     }
 
 
-    private void reqPicData() {
+    private void getPicData() {
         mRefreshLayout.setRefreshing(true);
         mLoadingImgIv.setImageResource(R.mipmap.ic_launcher);
 
@@ -169,7 +169,7 @@ public class PageFragment extends Fragment {
             mIsHasInitData = false;
         }
 
-
+        //save data is null will add and show data else update data but not reset adapter
         if (!CommonUtils.isNetworkConnected(getActivity())) {
             mRefreshLayout.setRefreshing(false);
             Toast.makeText(getActivity(), R.string.connect_error, Toast.LENGTH_SHORT).show();
@@ -192,22 +192,14 @@ public class PageFragment extends Fragment {
             return false;
         }
 
-        if (mLastVisibleItem[0] + 1 == myRecycleViewAdapter.getItemCount()) {
-            return true;
-        }
-
-        if (mLastVisibleItem[1] + 1 == myRecycleViewAdapter.getItemCount()) {
-            return true;
-        }
-
-        return false;
+        return (mLastVisibleItem[0] + 1 == myRecycleViewAdapter.getItemCount()) || (mLastVisibleItem[1] + 1 == myRecycleViewAdapter.getItemCount());
     }
 
     private void doPostInitResult(ArrayList<ImageData> lists) {
         mRefreshLayout.setRefreshing(false);
 
         if (lists == null) {
-            lists = new ArrayList<>();
+            return;
         }
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -215,26 +207,13 @@ public class PageFragment extends Fragment {
             stringBuilder.append(lists.get(i).getUrl()).append(",");
         }
 
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-
-        SharePreferenceUtil.saveStringData(getActivity(), INIT_DATA + mFragmentPage, stringBuilder.toString());
+        if (stringBuilder.length() >= 1) {
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            SharePreferenceUtil.saveStringData(getActivity(), INIT_DATA + mFragmentPage, stringBuilder.toString());
+        }
 
         if (!mIsHasInitData) {
-            mDetailDatas.addAll(lists);
-            myRecycleViewAdapter = new MyRecycleViewAdapter(getActivity(), lists);
-            mRecyclerView.setAdapter(myRecycleViewAdapter);
-
-            myRecycleViewAdapter.setOnItemActionListener(new MyRecycleViewAdapter.OnItemActionListener() {
-                @Override
-                public void onItemClickListener(View v, int pos, String url) {
-                    Intent intent = new Intent(getActivity(), ShowPicActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList(SHOW_PIC, mDetailDatas);
-                    bundle.putInt(SHOW_PIC_POS, pos);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-            });
+            setAdapter(lists);
         }
 
     }
@@ -253,6 +232,10 @@ public class PageFragment extends Fragment {
             datas.add(data);
         }
 
+        setAdapter(datas);
+    }
+
+    private void setAdapter(ArrayList<ImageData> datas) {
         mDetailDatas.addAll(datas);
         myRecycleViewAdapter = new MyRecycleViewAdapter(getActivity(), datas);
         mRecyclerView.setAdapter(myRecycleViewAdapter);
@@ -268,7 +251,6 @@ public class PageFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
     }
 
 
