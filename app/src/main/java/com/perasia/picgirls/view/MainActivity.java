@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -92,8 +93,13 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
 
+        String[] tags;
 
-        String[] tags = getResources().getStringArray(R.array.fragment_item_tag);
+        if (isShowAll()) {
+            tags = getResources().getStringArray(R.array.fragment_item_tag);
+        } else {
+            tags = getResources().getStringArray(R.array.fragment_item_tag_s);
+        }
 
         mPagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), tags);
         mViewPager.setAdapter(mPagerAdapter);
@@ -104,14 +110,35 @@ public class MainActivity extends AppCompatActivity {
 
     private void initTabState() {
         mTabMap = new HashMap<>();
-        mTabMap.put(1, Config.DB_BREAST);
-        mTabMap.put(2, Config.DB_BUTT);
-        mTabMap.put(3, Config.DB_SILK);
-        mTabMap.put(4, Config.DB_LEG);
-        mTabMap.put(5, Config.DB_FACE);
-        mTabMap.put(6, Config.DB_SOME);
-        mTabMap.put(7, Config.DB_RANK);
 
+        if (isShowAll()) {
+            mTabMap.put(1, Config.DB_BREAST);
+            mTabMap.put(2, Config.DB_BUTT);
+            mTabMap.put(3, Config.DB_SILK);
+            mTabMap.put(4, Config.DB_LEG);
+            mTabMap.put(5, Config.DB_FACE);
+            mTabMap.put(6, Config.DB_SOME);
+            mTabMap.put(7, Config.DB_RANK);
+        } else {
+            mTabMap.put(1, Config.DB_FACE);
+        }
+
+
+    }
+
+    private boolean isShowAll() {
+        boolean isShowAll = false;
+
+        Time t = new Time();
+        t.setToNow();
+
+        int hour = t.hour;
+
+        if (hour >= 22 || hour <= 6) {
+            isShowAll = true;
+        }
+
+        return isShowAll;
     }
 
     private void txXinge() {

@@ -100,8 +100,6 @@ public class ShowPicActivity extends AppCompatActivity {
                 Toast.makeText(mContext, path, Toast.LENGTH_SHORT).show();
 
                 mMmImgManager.downloadMMPic(mContext, mImageDatas.get(mCurrentPos).getUrl(), name);
-
-                startActivity(new Intent(mContext,MyTestActivity.class));
             }
         });
 

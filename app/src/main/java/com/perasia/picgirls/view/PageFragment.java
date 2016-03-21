@@ -226,9 +226,9 @@ public class PageFragment extends Fragment {
 
         ArrayList<ImageData> datas = new ArrayList<>();
 
-        for (int i = 0; i < result.length; ++i) {
+        for (String i : result) {
             ImageData data = new ImageData();
-            data.setUrl(result[i]);
+            data.setUrl(i);
             datas.add(data);
         }
 

@@ -11,4 +11,8 @@
         <item>今日福利</item>
     </string-array>
 
+    <string-array name="fragment_item_tag_s">
+        <item>颜值控</item>
+    </string-array>
+
 </resources>
