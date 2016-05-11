@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,6 +38,8 @@ public class ShowPicActivity extends AppCompatActivity {
     private ArrayList<View> mViews;
 
     private GetMMImgManager mMmImgManager;
+
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,7 @@ public class ShowPicActivity extends AppCompatActivity {
 
         mButton = (Button) findViewById(R.id.detail_button);
         mViewPager = (ViewPager) findViewById(R.id.detail_viewpager);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mViews = new ArrayList<>();
 
         if (mImageDatas != null) {

@@ -72,7 +72,7 @@ public class MyRecycleViewAdapter extends RecyclerView.Adapter<MyRecycleViewAdap
     }
 
 
-    private ImageData getItem(int position) {
+    public ImageData getItem(int position) {
         if (datas == null) {
             return null;
         }
