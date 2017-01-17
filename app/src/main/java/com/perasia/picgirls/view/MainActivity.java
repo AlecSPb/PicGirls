@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
 
-    private WebView mAdWebView;
-
 //    private DrawerLayout mDrawerLayout;
 //    private ActionBarDrawerToggle mActionBarDrawerToggle;
 //    private ListView mDrawerListView;
@@ -66,10 +64,6 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         mViewPager = (ViewPager) findViewById(R.id.container_viewpager);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-
-        mAdWebView = (WebView) findViewById(R.id.ad_banner_wv);
-
-        AdUtil.setAds(mContext, mAdWebView);
 
 //        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
 //        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -138,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
             isShowAll = true;
         }
 
-        return isShowAll;
+//        return isShowAll;
+        return true;
     }
 
     private void txXinge() {
@@ -178,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAdWebView.destroy();
     }
 
     @Override
